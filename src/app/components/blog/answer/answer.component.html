@@ -1,0 +1,85 @@
+<!-- <app-toaster></app-toaster> -->
+<div class="form-check form-switch ps-0">
+    <label class="switch">
+        <input type="checkbox" id="is_random_related_products" [formControl]="checkboxControl" (change)="viewChange($event)">
+        <span class="switch-state"></span>
+       
+    </label>
+    <p class="help-text">{{ button_text_switch }}</p>
+    <button class="help-text" (click)="DeleteModal.openModal('deleteAction', answer)">Delete</button>
+</div>
+@if(edited) {
+<div class="card">
+    <div class="card-body">
+        <form class="theme-form mb-4">
+            <div class="row g-sm-4 g-3">
+                <div class="col-sm-6">
+                    <select2 class="custom-select" [placeholder]="'show_type' | translate"
+                        [data]="(showType$ | async)?.length ? (showType$ | async) : []" [formControl]="showTypeSelect"
+                        noResultMessage="{{ 'no_data_found' | translate }}" id="showType_id" resettable>
+                    </select2>
+                </div>
+                <div class="col-sm-6">
+                    <select2 class="custom-select" [placeholder]="'code_language' | translate"
+                        [data]="(language$ | async)?.length ? (language$ | async) : []" [formControl]="languageSelect"
+                        noResultMessage="{{ 'no_data_found' | translate }}" id="language_id" resettable>
+                    </select2>
+                </div>
+            </div>
+            <div class="inside-horizontal-tabs mt-0">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                    <li ngbNavItem="content">
+                        <a ngbNavLink><i class="ri-bank-line"></i>{{ 'content' | translate }}</a>
+                        <ng-template ngbNavContent>
+                            <editor apiKey="epebmvnxkrnra2uhjkkpuh61dseitsbtygj3qk3qnrv5foii" [formControl]="p1"
+                                [init]="{
+                                height: 500,
+                                menubar: true,
+                                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount code',
+                                toolbar: 'code undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                            }">
+                            </editor>
+                        </ng-template>
+                    </li>
+                    <li ngbNavItem="basecode">
+                        <a ngbNavLink><i class="ri-paypal-line"></i> {{ 'code' | translate }}</a>
+                        <ng-template ngbNavContent>
+                            <editor apiKey="epebmvnxkrnra2uhjkkpuh61dseitsbtygj3qk3qnrv5foii" [formControl]="p2" [init]="{
+                            height: 500,
+                            menubar: true,
+                            plugins: 'code anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                            toolbar: 'code undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                        }">
+                            </editor>
+                        </ng-template>
+                    </li>
+                    <li ngbNavItem="basecodearea">
+                        <a ngbNavLink><i class="ri-paypal-line"></i> {{ 'base_code' | translate }}</a>
+                        <ng-template ngbNavContent>
+                            <!-- <editor apiKey="epebmvnxkrnra2uhjkkpuh61dseitsbtygj3qk3qnrv5foii" [formControl]="p3" [init]="{
+                            height: 500,
+                            menubar: true,
+                            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                        }">
+                            </editor> -->
+                            <textarea [formControl]="p3" rows="8" style="width: 100%;"> </textarea>
+
+                        </ng-template>
+                    </li>
+                </ul>
+                <div [ngbNavOutlet]="nav" class="mt-3"></div>
+            </div>
+            <app-button [id]="'payout_btn'" (click)="updateForm()">
+                {{ 'save' | translate }}
+            </app-button>
+        </form>
+    </div>
+</div>
+} @else {
+
+<div class="blog-detail-contain" [innerHTML]="(content$ | async)"></div>
+}
+
+<app-delete-modal  #deleteModal 
+(deleteItem)="deleteAction($event)"></app-delete-modal>
